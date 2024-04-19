@@ -1,0 +1,24 @@
+{
+  "originHash" : "e961407c4730822b9423cd1d01fceefb7121785ac8862259bc52a34db98cd975",
+  "pins" : [
+    {
+      "identity" : "swinject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Swinject/Swinject.git",
+      "state" : {
+        "revision" : "463cb2d659c8ae34899d18057ea5b1bb86fc3178",
+        "version" : "2.8.4"
+      }
+    },
+    {
+      "identity" : "swinjectautoregistration",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Swinject/SwinjectAutoregistration.git",
+      "state" : {
+        "revision" : "89f9357680ed65dbc95b66732fe3338aca79064a",
+        "version" : "2.8.4"
+      }
+    }
+  ],
+  "version" : 3
+}
