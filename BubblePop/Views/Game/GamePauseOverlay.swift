@@ -18,14 +18,14 @@ struct GamePauseOverlay: View {
                 Text("Score: \(viewModel.score)")
                     .font(.title)
                     .padding()
-                Button(action: {
+                FancyButton(action: {
                     
                 }) {
                     Text("Resume")
                         .font(.title)
                         .padding()
                 }
-                Button(action: {
+                FancyButton(action: {
                     // Go back to main menu
                 }) {
                     Text("Main Menu")
@@ -38,5 +38,6 @@ struct GamePauseOverlay: View {
 }
 
 #Preview {
-    GamePauseOverlay(viewModel: GameViewModel())
+    loadDependeciencies()
+    return GamePauseOverlay(viewModel: GameViewModel())
 }

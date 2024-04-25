@@ -18,22 +18,22 @@ struct SettingsView: View {
             Color("Base100")
                 .ignoresSafeArea(.all, edges: .all)
             VStack {
-                Button(action: { selectGameMode(0) }) {
+                FancyButton(action: { selectGameMode(0) }) {
                     Image("EasyMode")
                         .resizable()
                         .selectable(gameMode == 0)
                 }
-                Button(action: { selectGameMode(1) }) {
+                FancyButton(action: { selectGameMode(1) }) {
                     Image("NormalMode")
                         .resizable()
                         .selectable(gameMode == 1)
                 }
-                Button(action: { selectGameMode(2) }) {
+                FancyButton(action: { selectGameMode(2) }) {
                     Image("HardMode")
                         .resizable()
                         .selectable(gameMode == 2)
                 }
-                Button(action: {
+                FancyButton(action: {
                     dismiss()
                 }) {
                     Image("Ok")
@@ -56,5 +56,6 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    loadDependeciencies()
+    return SettingsView()
 }

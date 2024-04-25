@@ -30,10 +30,10 @@ struct Banner: View {
                 Text("\(time)")
                     .font(.title)
                     .padding()
-                Text("\(score)")
+                Text("\(score)".clamp(maxChars: 6))
                     .font(.title)
                     .padding()
-                Text("\(highscore)")
+                Text("\(highscore)".clamp(maxChars: 6))
                     .font(.title)
                     .padding()
             }

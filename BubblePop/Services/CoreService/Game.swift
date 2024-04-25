@@ -24,7 +24,7 @@ class Game {
     private var timer: Timer?
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: Game.self))
     private let gameEventManager: EventManager
-    private let gameEvents: [LocalEvent] = [.TimeUpdated, .GameOver, .BubblesGenerated, .ScoreUpdated, .GamePaused, .GameStarted]
+    private let gameEvents: [LocalEvent] = [.TimeUpdated, .GameOver, .BubblesGenerated, .BubbleRemoved, .ScoreUpdated, .GamePaused, .GameStarted]
     private var context: GameContext
     private let streakMultiplier: Double
     
@@ -76,6 +76,8 @@ class Game {
         context.timeLeft = context.gameDuration
         context.score = 0
         context.bubbles = []
+        context.combo = 0
+        context.lastPoppedBubble = nil
     }
     
     func popBubble(bubble: Bubble) {
@@ -83,12 +85,24 @@ class Game {
             return
         }
         let isCombo = context.lastPoppedBubble?.color == bubble.color
+        context.combo = isCombo ? context.combo + 1 : 1
+        context.lastPoppedBubble = bubble
+        context.score += getScore(bubble: bubble)
+        removeBubble(bubble: bubble)
+        gameEventManager.publishEvent(event: LocalEvent.ScoreUpdated, data: context.score, context: context)
+    }
+    
+    func removeBubble(bubble: Bubble) {
         if let index = context.bubbles.firstIndex(where: { $0.id == bubble.id }) {
             context.bubbles.remove(at: index)
-            context.combo = isCombo ? context.combo + 1 : 1
-            context.score += getScore(bubble: bubble)
-            context.lastPoppedBubble = bubble
-            gameEventManager.publishEvent(event: LocalEvent.ScoreUpdated, data: context.score, context: context)
+        }
+        gameEventManager.publishEvent(event: LocalEvent.BubbleRemoved, data: context.bubbles, context: context)
+    }
+    
+    func updateBubblePosition(bubble: Bubble, newX: Double, newY: Double) {
+        if let index = context.bubbles.firstIndex(where: { $0.id == bubble.id }) {
+            context.bubbles[index].position.initialX = newX
+            context.bubbles[index].position.initialY = newY
         }
     }
     
@@ -101,6 +115,11 @@ class Game {
         
         let lastStreak = context.combo
         return pow(streakMultiplier, Double(lastStreak))
+    }
+    
+    func getStreak(bubble: Bubble) -> Int {
+        let isCombo = context.lastPoppedBubble?.color == bubble.color
+        return isCombo ? context.combo : 1
     }
     
     func getScore(bubble: Bubble) -> Int {
@@ -131,6 +150,7 @@ extension LocalEvent {
     static let TimeUpdated = LocalEvent("TimeUpdated")
     static let BubblesGenerated = LocalEvent("BubblesGenerated")
     static let ScoreUpdated = LocalEvent("ScoreUpdated")
+    static let BubbleRemoved = LocalEvent("BubbleRemoved")
     static let GameStarted = LocalEvent("GameStarted")
     static let GamePaused = LocalEvent("GamePaused")
     static let GameOver = LocalEvent("GameOver")

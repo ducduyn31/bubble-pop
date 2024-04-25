@@ -38,7 +38,7 @@ struct HighScoreView: View {
                     }
                 }.listStyle(PlainListStyle())
                 Spacer()
-                Button(action: {
+                FancyButton(action: {
                     dismiss()
                 }) {
                     Image("Ok")
@@ -57,5 +57,6 @@ struct HighScoreView: View {
 }
 
 #Preview {
-    HighScoreView(store: GameSessionStore())
+    loadDependeciencies()
+    return HighScoreView(store: GameSessionStore())
 }

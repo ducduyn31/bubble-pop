@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum BubbleColor: CaseIterable {
     case Red
@@ -13,6 +14,21 @@ enum BubbleColor: CaseIterable {
     case Blue
     case Pink
     case Black
+    
+    func toColor() -> Color {
+        switch self {
+        case .Red:
+            return Color.red
+        case .Green:
+            return Color.green
+        case .Blue:
+            return Color.blue
+        case .Pink:
+            return Color.purple
+        case .Black:
+            return Color.black
+        }
+    }
 }
 
 enum BubbleSize: CaseIterable {
@@ -22,8 +38,9 @@ enum BubbleSize: CaseIterable {
 }
 
 struct BubblePosition {
-    var x: Double
-    var y: Double
+    var initialX: Double
+    var initialY: Double
+    var velocity: Double
 }
 
 let BubbleRadius: [BubbleSize: Double] = [
@@ -40,12 +57,25 @@ let BubbleScore: [BubbleColor: Double] = [
     .Black: 10,
 ]
 
-class Bubble: Identifiable {
+class Bubble: Identifiable, Equatable {
     var id: UUID
     var color: BubbleColor
     var size: BubbleSize
     var position: BubblePosition
     var score: Double
+    var createdAt: Date = Date()
+    
+    var x: Double {
+        get {
+            return position.initialX
+        }
+    }
+    
+    var y: Double {
+        get {
+            return position.initialY - (Date().timeIntervalSince(createdAt) * position.velocity)
+        }
+    }
     
     init(id: UUID, color: BubbleColor, size: BubbleSize, score: Double, position: BubblePosition) {
         self.id = id
@@ -53,5 +83,9 @@ class Bubble: Identifiable {
         self.size = size
         self.position = position
         self.score = score
+    }
+    
+    static func == (lhs: Bubble, rhs: Bubble) -> Bool {
+        return lhs.id == rhs.id
     }
 }

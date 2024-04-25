@@ -60,6 +60,15 @@
 		16B45D7B2BD2921D0065A9FF /* GameSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B45D7A2BD2921D0065A9FF /* GameSessionStore.swift */; };
 		16B45D7F2BD294E20065A9FF /* GameSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B45D7E2BD294E20065A9FF /* GameSessionService.swift */; };
 		16B45D812BD29B400065A9FF /* Strings+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B45D802BD29B400065A9FF /* Strings+Extensions.swift */; };
+		16D523412BDA31E7004439C8 /* PoppedTextEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D523402BDA31E7004439C8 /* PoppedTextEffect.swift */; };
+		16D523452BDA3C14004439C8 /* FloatUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D523442BDA3C14004439C8 /* FloatUp.swift */; };
+		16D5234C2BDA85FD004439C8 /* SoundPlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D5234B2BDA85FD004439C8 /* SoundPlayerService.swift */; };
+		16D5234E2BDA88AF004439C8 /* bubblePop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 16D5234D2BDA88AF004439C8 /* bubblePop.mp3 */; };
+		16D523512BDA8F42004439C8 /* gameOver.wav in Resources */ = {isa = PBXBuildFile; fileRef = 16D523502BDA8F42004439C8 /* gameOver.wav */; };
+		16D523532BDA9051004439C8 /* menuClick.wav in Resources */ = {isa = PBXBuildFile; fileRef = 16D523522BDA9051004439C8 /* menuClick.wav */; };
+		16D523552BDA9098004439C8 /* FancyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D523542BDA9098004439C8 /* FancyButton.swift */; };
+		16D523572BDA947C004439C8 /* background.wav in Resources */ = {isa = PBXBuildFile; fileRef = 16D523562BDA947C004439C8 /* background.wav */; };
+		16D523592BDA9523004439C8 /* go.wav in Resources */ = {isa = PBXBuildFile; fileRef = 16D523582BDA9523004439C8 /* go.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +145,15 @@
 		16B45D7A2BD2921D0065A9FF /* GameSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionStore.swift; sourceTree = "<group>"; };
 		16B45D7E2BD294E20065A9FF /* GameSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionService.swift; sourceTree = "<group>"; };
 		16B45D802BD29B400065A9FF /* Strings+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Extensions.swift"; sourceTree = "<group>"; };
+		16D523402BDA31E7004439C8 /* PoppedTextEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoppedTextEffect.swift; sourceTree = "<group>"; };
+		16D523442BDA3C14004439C8 /* FloatUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatUp.swift; sourceTree = "<group>"; };
+		16D5234B2BDA85FD004439C8 /* SoundPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPlayerService.swift; sourceTree = "<group>"; };
+		16D5234D2BDA88AF004439C8 /* bubblePop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bubblePop.mp3; sourceTree = "<group>"; };
+		16D523502BDA8F42004439C8 /* gameOver.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gameOver.wav; sourceTree = "<group>"; };
+		16D523522BDA9051004439C8 /* menuClick.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = menuClick.wav; sourceTree = "<group>"; };
+		16D523542BDA9098004439C8 /* FancyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyButton.swift; sourceTree = "<group>"; };
+		16D523562BDA947C004439C8 /* background.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = background.wav; sourceTree = "<group>"; };
+		16D523582BDA9523004439C8 /* go.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = go.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +215,7 @@
 		1652C6202BCD664C00D02EEA /* BubblePop */ = {
 			isa = PBXGroup;
 			children = (
+				16D5234F2BDA88BE004439C8 /* Audio */,
 				1652C6532BCD73A300D02EEA /* System */,
 				1652C6522BCD731F00D02EEA /* Helpers */,
 				1652C6512BCD731300D02EEA /* Repositories */,
@@ -261,6 +280,7 @@
 		1652C6502BCD730A00D02EEA /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				16D5234A2BDA85E2004439C8 /* SoundService */,
 				16B45D7C2BD294B50065A9FF /* GameSession */,
 				1652C65D2BCE6B3100D02EEA /* CoreService */,
 			);
@@ -310,6 +330,8 @@
 				16B45D6C2BD2174D0065A9FF /* Card.swift */,
 				16B45D702BD2422C0065A9FF /* Selectable.swift */,
 				16B45D742BD259930065A9FF /* CustomTransitions.swift */,
+				16D523442BDA3C14004439C8 /* FloatUp.swift */,
+				16D523542BDA9098004439C8 /* FancyButton.swift */,
 			);
 			path = SharedComponents;
 			sourceTree = "<group>";
@@ -349,6 +371,7 @@
 				16B45D662BD14C040065A9FF /* GameArea.swift */,
 				16B45D682BD14C410065A9FF /* Ball.swift */,
 				16B45D6E2BD21A0A0065A9FF /* GamePauseOverlay.swift */,
+				16D523402BDA31E7004439C8 /* PoppedTextEffect.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -377,6 +400,26 @@
 				16B45D782BD2918A0065A9FF /* GameSession.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		16D5234A2BDA85E2004439C8 /* SoundService */ = {
+			isa = PBXGroup;
+			children = (
+				16D5234B2BDA85FD004439C8 /* SoundPlayerService.swift */,
+			);
+			path = SoundService;
+			sourceTree = "<group>";
+		};
+		16D5234F2BDA88BE004439C8 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				16D523582BDA9523004439C8 /* go.wav */,
+				16D523562BDA947C004439C8 /* background.wav */,
+				16D523522BDA9051004439C8 /* menuClick.wav */,
+				16D523502BDA8F42004439C8 /* gameOver.wav */,
+				16D5234D2BDA88AF004439C8 /* bubblePop.mp3 */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -491,7 +534,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16D5234E2BDA88AF004439C8 /* bubblePop.mp3 in Resources */,
+				16D523592BDA9523004439C8 /* go.wav in Resources */,
 				1652C62A2BCD664D00D02EEA /* Preview Assets.xcassets in Resources */,
+				16D523572BDA947C004439C8 /* background.wav in Resources */,
+				16D523532BDA9051004439C8 /* menuClick.wav in Resources */,
+				16D523512BDA8F42004439C8 /* gameOver.wav in Resources */,
 				1652C6262BCD664D00D02EEA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -532,17 +580,21 @@
 				1652C6662BCE742E00D02EEA /* Game.swift in Sources */,
 				16B45D6B2BD216F60065A9FF /* Overlay.swift in Sources */,
 				16B45D652BD11DE30065A9FF /* Timer.swift in Sources */,
+				16D523412BDA31E7004439C8 /* PoppedTextEffect.swift in Sources */,
 				16B45D6F2BD21A0A0065A9FF /* GamePauseOverlay.swift in Sources */,
 				161AAA622BD00A2400F68CEF /* Fading.swift in Sources */,
 				16B45D692BD14C410065A9FF /* Ball.swift in Sources */,
+				16D523452BDA3C14004439C8 /* FloatUp.swift in Sources */,
 				1652C66F2BCE751800D02EEA /* EasyBubbleStrategy.swift in Sources */,
 				16B45D572BD0E9550065A9FF /* IBubbleDegenerateStrategy.swift in Sources */,
+				16D5234C2BDA85FD004439C8 /* SoundPlayerService.swift in Sources */,
 				161AAA402BCFDA7500F68CEF /* Event.swift in Sources */,
 				161AAA662BD0275A00F68CEF /* GameKitIntegration.swift in Sources */,
 				1652C6682BCE748E00D02EEA /* Bubble.swift in Sources */,
 				1652C66D2BCE750000D02EEA /* IBubbleGenerateStrategy.swift in Sources */,
 				1652C6552BCD73D700D02EEA /* AppState.swift in Sources */,
 				1652C6792BCE778300D02EEA /* HighScoreView.swift in Sources */,
+				16D523552BDA9098004439C8 /* FancyButton.swift in Sources */,
 				16B45D712BD2422C0065A9FF /* Selectable.swift in Sources */,
 				1652C65C2BCE682000D02EEA /* GameView.swift in Sources */,
 				161AAA442BCFEB5000F68CEF /* DependencyInjection.swift in Sources */,

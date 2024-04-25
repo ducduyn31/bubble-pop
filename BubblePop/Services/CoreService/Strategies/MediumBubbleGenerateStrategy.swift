@@ -17,6 +17,14 @@ class MediumBubbleGenerateStrategy: IBubbleGenerateStrategy {
         .Black: 0.05,
     ]
     
+    private let bubbleVelocity: [BubbleColor: Double] = [
+        .Red: 100.0,
+        .Pink: 150.0,
+        .Green: 200.0,
+        .Blue: 250.0,
+        .Black: 300.0,
+    ]
+    
     func generateBubble(context: GameContext) -> Bubble? {
         let color = selectRandomColor()
         if color == nil {
@@ -30,14 +38,15 @@ class MediumBubbleGenerateStrategy: IBubbleGenerateStrategy {
         let maxTries = 100
         for _ in 0..<maxTries {
             let x = Double.random(in: 0...screenWidth)
-            let y = Double.random(in: 0...screenHeight)
+            let y = Double.random(in: screenHeight/2...screenHeight)
+            let velocity = bubbleVelocity[color!]!
             if !isOverlapping(context: context, x: x, y: y) {
                 return Bubble(
                     id: UUID(),
                     color: color!,
                     size: size,
                     score: BubbleScore[color!]!,
-                    position: BubblePosition(x: x, y: y)
+                    position: BubblePosition(initialX: x, initialY: y, velocity: velocity)
                 )
             }
         }
@@ -51,7 +60,7 @@ class MediumBubbleGenerateStrategy: IBubbleGenerateStrategy {
         }
         
         for bubble in context.bubbles {
-            let distance = sqrt(pow(bubble.position.x - x, 2) + pow(bubble.position.y - y, 2))
+            let distance = sqrt(pow(bubble.x - x, 2) + pow(bubble.y - y, 2))
             if distance < radius + BubbleRadius[bubble.size]! {
                 return true
             }

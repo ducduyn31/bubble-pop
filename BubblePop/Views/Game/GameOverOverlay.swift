@@ -23,7 +23,7 @@ struct GameOverOverlay: View {
                     Text("Score: \(viewModel.score)")
                         .font(.title)
                         .padding()
-                    Button(action: {
+                    FancyButton(action: {
                         viewModel.resetGame()
                         isCountingdown = true
                     }) {
@@ -31,7 +31,7 @@ struct GameOverOverlay: View {
                             .font(.title)
                             .padding()
                     }
-                    Button(action: {
+                    FancyButton(action: {
                         dismiss()
                     }) {
                         Text("Main Menu")
@@ -48,5 +48,6 @@ struct GameOverOverlay: View {
 }
 
 #Preview {
-    GameOverOverlay(isCountingdown: .constant(false), viewModel: GameViewModel())
+    loadDependeciencies()
+    return GameOverOverlay(isCountingdown: .constant(false), viewModel: GameViewModel())
 }
