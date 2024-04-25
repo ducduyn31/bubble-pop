@@ -26,6 +26,7 @@ class Game {
     private let gameEventManager: EventManager
     private let gameEvents: [LocalEvent] = [.TimeUpdated, .GameOver, .BubblesGenerated, .ScoreUpdated, .GamePaused, .GameStarted]
     private var context: GameContext
+    private let streakMultiplier: Double
     
     public var timeLeft: Int { get { return context.timeLeft } }
     public var score: Int { get { return context.score } }
@@ -45,6 +46,7 @@ class Game {
             bubbles: [],
             combo: 0
         )
+        self.streakMultiplier = 1.5
     }
     
     func updateSize(width: Double, height: Double) {
@@ -84,11 +86,26 @@ class Game {
         if let index = context.bubbles.firstIndex(where: { $0.id == bubble.id }) {
             context.bubbles.remove(at: index)
             context.combo = isCombo ? context.combo + 1 : 1
-            let multiplier: Double = context.combo > 1 ? pow(1.5, Double(context.combo - 1)) : 1
-            context.score += Int(multiplier * Double(bubble.score))
+            context.score += getScore(bubble: bubble)
             context.lastPoppedBubble = bubble
             gameEventManager.publishEvent(event: LocalEvent.ScoreUpdated, data: context.score, context: context)
         }
+    }
+    
+    func getMultiplier(bubble: Bubble) -> Double {
+        let isCombo = context.lastPoppedBubble?.color == bubble.color
+        
+        if !isCombo {
+            return 1
+        }
+        
+        let lastStreak = context.combo
+        return pow(streakMultiplier, Double(lastStreak))
+    }
+    
+    func getScore(bubble: Bubble) -> Int {
+        let multiplier = getMultiplier(bubble: bubble)
+        return Int(multiplier * Double(bubble.score))
     }
     
     func stopGame() {
