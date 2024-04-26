@@ -13,6 +13,7 @@ struct ContentView: View {
         NavigationView {
             GameMenuView()
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
