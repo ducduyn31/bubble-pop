@@ -8,36 +8,31 @@
 import SwiftUI
 import os
 
-struct GameView: View {
+struct GameView: DestinationView {
     @EnvironmentObject var systemState: SystemState
     @StateObject var viewModel: GameViewModel = GameViewModel()
     @State private var isCountingdown = true
-    @Inject var soundPlayer: SoundPlayerService
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: GameView.self))
+    
+    var name = "Start"
     
     var body: some View {
         ZStack {
             Color("Base100")
                 .ignoresSafeArea(.all, edges: .all)
             Countdown(shouldCountdown: $isCountingdown)
-                .onAppear {
-                    soundPlayer.playSound(name: .countdown)
-                }
             VStack {
                 Banner(time: viewModel.time, score: viewModel.score, highscore: viewModel.highscore)
                 GameArea(viewModel: viewModel, shouldStart: !isCountingdown)
             }
             if viewModel.isGameOver {
+                // When the game is over, show the game over overlay, which will prevent user from interacting with the game
                 GameOverOverlay(isCountingdown: $isCountingdown, viewModel: viewModel)
-                    .onAppear {
-                        soundPlayer.stopSound(name: .backgroundLoop)
-                        soundPlayer.playSound(name: .gameOver)
-                    }
             }
         }
         .onAppear {
-            self.isCountingdown = true
-            viewModel.setupGame()
+            self.isCountingdown = true // Start the countdown, this will trigger Countdown component to start counting down
+            viewModel.setupGame() // Setup the game, subscribe to logic events
             logger.debug("GameView appeared")
         }
         .navigationBarBackButtonHidden()
@@ -46,6 +41,6 @@ struct GameView: View {
 
 #Preview {
     loadDependeciencies()
-    configureSettings()
+    configureDefaultSettings()
     return GameView()
 }

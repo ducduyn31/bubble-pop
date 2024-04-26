@@ -8,6 +8,8 @@
 import Foundation
 import os
 
+/// A wrapper for a class separated event listener. Each
+/// class have their own logic to handle events.
 protocol ClassSeparatedEventListener: EventListener {
     func getRegisteredEvents() -> [LocalEvent]
 }
@@ -16,8 +18,11 @@ fileprivate let logger = Logger(
     subsystem: Bundle.main.bundleIdentifier!,
     category: String(describing: EventManager.self)
 )
+
+/// All events should be registered here
 fileprivate let handlers: [ClassSeparatedEventListener] = [
     OnLoadComplete(),
+    OnGameKitIntegrationFailed(),
     MoveFromLoadCompleted(),
 ]
 

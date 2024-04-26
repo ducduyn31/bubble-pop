@@ -12,6 +12,7 @@ extension LocalEvent {
     static let StateChanged = LocalEvent("StateChanged")
 }
 
+/// Creating a smooth transition from LoadComplete to GameMenu
 class MoveFromLoadCompleted: ClassSeparatedEventListener {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: MoveFromLoadCompleted.self))
     

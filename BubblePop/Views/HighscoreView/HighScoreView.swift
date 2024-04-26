@@ -8,10 +8,12 @@
 import SwiftUI
 import os
 
-struct HighScoreView: View {
+struct HighScoreView: DestinationView {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: HighScoreView.self))
     @Environment(\.dismiss) var dismiss
     @ObservedObject var store: GameSessionStore
+    
+    var name = "Highscore"
     
     var body: some View {
         ZStack {
@@ -22,21 +24,7 @@ struct HighScoreView: View {
                     .resizable()
                     .frame(width: 300, height: 100)
                     .padding()
-                List {
-                    ForEach(store.gameSessions.indices, id: \.self) { id in
-                        HStack {
-                            Text("\(id + 1)")
-                                .font(id == 0 ? .title : .headline)
-                            Text(store.gameSessions[id].playerName.or("Anonymous"))
-                                .font(id == 0 ? .title : .headline)
-                            Spacer()
-                            Text("\(store.gameSessions[id].score)")
-                                .font(id == 0 ? .title : .headline)
-                        }
-                        .background(.clear)
-                        .listRowBackground(Color.clear)
-                    }
-                }.listStyle(PlainListStyle())
+                HighScoreList(store: store)
                 Spacer()
                 FancyButton(action: {
                     dismiss()
@@ -49,7 +37,6 @@ struct HighScoreView: View {
             }
         }
         .onAppear {
-            try? store.loadGameSessions()
             logger.debug("HighScoreView appeared")
         }
         .navigationBarBackButtonHidden()

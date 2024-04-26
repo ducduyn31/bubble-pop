@@ -8,10 +8,12 @@
 import SwiftUI
 import os
 
-struct SettingsView: View {
+struct SettingsView: DestinationView {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: SettingsView.self))
     @Environment(\.dismiss) var dismiss
     @AppStorage("gameMode") var gameMode = 0
+    
+    var name = "Settings"
     
     var body: some View {
         ZStack {
@@ -49,6 +51,9 @@ struct SettingsView: View {
         .navigationBarBackButtonHidden()
     }
     
+    /// Select game mode
+    /// mode: 0 = Easy, 1 = Normal, 2 = Hard
+    /// At this point the game mode is only different in the game duration and how many bubbles are generated
     private func selectGameMode(_ mode: Int) {
         gameMode = mode
         logger.debug("Game mode changed to \(mode)")

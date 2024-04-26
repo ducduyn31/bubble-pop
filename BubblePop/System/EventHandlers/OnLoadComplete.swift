@@ -15,6 +15,13 @@ extension LocalEvent {
     static let SettingsConfigured = LocalEvent("SettingsConfigured")
 }
 
+/// The game is only ready when:
+/// - Dependency injection container is ready
+/// - Game settings are configured
+/// - Gamekit integration is ready
+/// - Splash screen is complete
+///
+/// If all conditions are met, the move the state of game to `LoadComplete`
 class OnLoadComplete: ClassSeparatedEventListener {
     private static let requiredEvents: [LocalEvent] = [.DIContainerReady, .SplashScreenComplete, .GamekitIntegrationReady, .SettingsConfigured]
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: OnLoadComplete.self))

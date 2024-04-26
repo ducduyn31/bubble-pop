@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// A view modifier that makes the view blinking
 struct BlinkingViewModifier: ViewModifier {
     let duration: Double
     let from: Double

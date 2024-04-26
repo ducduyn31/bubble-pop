@@ -8,10 +8,12 @@
 import Foundation
 
 extension String {
+    /// Check if a string is empty or nil, return a default value if it is
     func or(_ newValue: String) -> String {
         return self.isEmpty ? newValue : self
     }
     
+    /// Limit the number of characters in a string, if the string is a number, format it to K, M, B, T
     func clamp(maxChars: Int) -> String {
         if let _ = Double(self) {
             let numberFormatter = NumberFormatter()

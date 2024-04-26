@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Not implemented yet
 protocol IBubbleDegenerateStrategy {
     func degenerateBubbles(context: GameContext) -> [Bubble]
 }

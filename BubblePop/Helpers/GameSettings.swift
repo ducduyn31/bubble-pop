@@ -13,7 +13,8 @@ extension UserDefaults {
     }
 }
 
-func configureSettings() {
+/// Set default game mode if it is not set
+func configureDefaultSettings() {
     if !UserDefaults.standard.valueExists(forKey: "gameMode") {
         UserDefaults.standard.setValue(1, forKey: "gameMode")
     }

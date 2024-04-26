@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// A view modifier that makes the view fading in and out
 struct FadingViewModifier: ViewModifier {
     let duration: Double
     let from: Double

@@ -21,13 +21,15 @@ struct GameContext {
 }
 
 class Game {
-    private var timer: Timer?
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: Game.self))
     private let gameEventManager: EventManager
     private let gameEvents: [LocalEvent] = [.TimeUpdated, .GameOver, .BubblesGenerated, .BubbleRemoved, .ScoreUpdated, .GamePaused, .GameStarted]
-    private var context: GameContext
+    private let maxStreak: Int = 10 // This is to prevent overflow, which will cause the app to crash
     private let streakMultiplier: Double
+    private var context: GameContext
+    private var timer: Timer?
     
+    // Get only properties
     public var timeLeft: Int { get { return context.timeLeft } }
     public var score: Int { get { return context.score } }
     public var bubbles: [Bubble] { get { return context.bubbles } }
@@ -35,7 +37,7 @@ class Game {
     @Inject private var bubbleFactory: BubbleFactory
     
     public init(gameDuration: Int) {
-        self.gameEventManager = EventManager()
+        self.gameEventManager = EventManager() // Every game has its own event manager
         self.context = GameContext(
             isStopped: true,
             timeLeft: gameDuration,
@@ -46,14 +48,18 @@ class Game {
             bubbles: [],
             combo: 0
         )
-        self.streakMultiplier = 1.5
+        self.streakMultiplier = 1.5 // Fixed for now
     }
     
-    func updateSize(width: Double, height: Double) {
+    
+    /// When the object is created, there is no information of how large the game area is
+    /// This function allows the game to know the size of the game area
+    func updateScreenSize(width: Double, height: Double) {
         context.width = width
         context.height = height
     }
     
+    /// Start the game, start the timer, and generate bubbles
     func startGame() {
         timer?.invalidate()
         self.context.isStopped = false
@@ -72,6 +78,7 @@ class Game {
         gameEventManager.publishEvent(event: LocalEvent.GameStarted, data: nil, context: context)
     }
     
+    /// Recycle the game object instead of recreating new game (expensive)
     func resetGame() {
         context.timeLeft = context.gameDuration
         context.score = 0
@@ -85,13 +92,14 @@ class Game {
             return
         }
         let isCombo = context.lastPoppedBubble?.color == bubble.color
-        context.combo = isCombo ? context.combo + 1 : 1
-        context.lastPoppedBubble = bubble
-        context.score += getScore(bubble: bubble)
-        removeBubble(bubble: bubble)
+        context.combo = isCombo ? context.combo + 1 : 1     // Update the streak
+        context.lastPoppedBubble = bubble                   // Remember the last bubble popped
+        context.score += getScore(bubble: bubble)           // Update the score
+        removeBubble(bubble: bubble)                        // Remove the bubble
         gameEventManager.publishEvent(event: LocalEvent.ScoreUpdated, data: context.score, context: context)
     }
     
+    /// System call only, this will force the bubble to be removed from the game without updating the score
     func removeBubble(bubble: Bubble) {
         if let index = context.bubbles.firstIndex(where: { $0.id == bubble.id }) {
             context.bubbles.remove(at: index)
@@ -99,13 +107,8 @@ class Game {
         gameEventManager.publishEvent(event: LocalEvent.BubbleRemoved, data: context.bubbles, context: context)
     }
     
-    func updateBubblePosition(bubble: Bubble, newX: Double, newY: Double) {
-        if let index = context.bubbles.firstIndex(where: { $0.id == bubble.id }) {
-            context.bubbles[index].position.initialX = newX
-            context.bubbles[index].position.initialY = newY
-        }
-    }
-    
+    /// Calculate the multiplier for the bubble, The first ball has the base score, every ball after that will update the score
+    /// with 1.5 times of the last ball's score
     func getMultiplier(bubble: Bubble) -> Double {
         let isCombo = context.lastPoppedBubble?.color == bubble.color
         
@@ -114,14 +117,17 @@ class Game {
         }
         
         let lastStreak = context.combo
-        return pow(streakMultiplier, Double(lastStreak))
+        return pow(streakMultiplier, Double(min(lastStreak, maxStreak)))
     }
     
+    /// Showing the COMBO streak
     func getStreak(bubble: Bubble) -> Int {
         let isCombo = context.lastPoppedBubble?.color == bubble.color
         return isCombo ? context.combo : 1
     }
     
+    /// Calculate the score for the bubble. The first ball has the base score, every ball after that will update the score
+    /// with 1.5 times of the last ball's score
     func getScore(bubble: Bubble) -> Int {
         let multiplier = getMultiplier(bubble: bubble)
         return Int(multiplier * Double(bubble.score))
@@ -141,6 +147,7 @@ class Game {
         gameEventManager.publishEvent(event: LocalEvent.GameOver, data: nil)
     }
     
+    /// A helper function to provide with easy subscriptions to all game events
     func subscribeToGameEvents(listener: EventListener) {
         gameEventManager.registerListener(listener: listener, events: gameEvents)
     }

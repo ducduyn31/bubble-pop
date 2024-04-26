@@ -7,8 +7,9 @@
 
 import SwiftUI
 
+/// Just a button that plays sound when tapped.
 struct FancyButton<Label>: View where Label: View {
-    @Inject var soundPlayer: SoundPlayerService
+    @Inject private var soundPlayer: SoundPlayerService
     let action: () -> Void
     let viewBuilder: () -> Label
     

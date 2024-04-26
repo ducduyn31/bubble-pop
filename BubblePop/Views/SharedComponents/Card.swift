@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// A card view with a background color
 struct Card<Content: View>: View {
     let content: Content
     var color: Color

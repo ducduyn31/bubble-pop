@@ -11,6 +11,7 @@ struct GameOverOverlay: View {
     @Binding var isCountingdown: Bool
     @ObservedObject var viewModel: GameViewModel
     @Environment(\.dismiss) var dismiss
+    @Inject private var soundPlayer: SoundPlayerService
     
     
     var body: some View {
@@ -43,7 +44,11 @@ struct GameOverOverlay: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.black.opacity(0.5))
-        .edgesIgnoringSafeArea(.all)
+        .edgesIgnoringSafeArea(.all) // Stop the user from interacting with the game
+        .onAppear {
+            soundPlayer.stopSound(name: .backgroundLoop)
+            soundPlayer.playSound(name: .gameOver)
+        }
     }
 }
 

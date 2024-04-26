@@ -30,6 +30,7 @@ class SoundPlayerService {
     private var soundBuffer: [AVAudioPlayer] = []
     private var currentlyLoopped: [Sound: AVAudioPlayer] = [:]
     
+    /// Prevent the game from opening file multiple times, only one time is enough
     private func preloadSound(soundFileName: String) {
         guard let bundlePath = Bundle.main.path(forResource: soundFileName, ofType: nil) else {
             logger.error("Failed to find sound file \(soundFileName)")
@@ -41,7 +42,7 @@ class SoundPlayerService {
         do {
             let sound = try AVAudioPlayer(contentsOf: fileURL)
             sound.prepareToPlay()
-            soundBuffer.append(sound)
+            soundBuffer.append(sound) // Save to memory
         } catch {
             logger.error("Failed to load sound file \(soundFileName)")
         }
@@ -52,6 +53,7 @@ class SoundPlayerService {
         logger.info("\(self.soundBuffer.count) sounds loaded")
     }
     
+    /// Play a sound, if isLooped is true, the sound will be played in a loop as a background sound
     func playSound(name: Sound, isLooped: Bool = false) {
         guard let sound = soundBuffer.first(where: { $0.url?.lastPathComponent == name.rawValue }) else {
             logger.error("Failed to find sound file \(name)")
@@ -67,6 +69,7 @@ class SoundPlayerService {
         }
     }
     
+    /// Stop the looped background sound
     func stopSound(name: Sound) {
         guard let sound = currentlyLoopped[name] else {
             logger.error("Failed to find sound file \(name)")

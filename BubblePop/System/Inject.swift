@@ -8,6 +8,7 @@
 import Foundation
 import Swinject
 
+/// Simulate how `@Autowired` works in Spring framework
 @propertyWrapper
 struct Inject<Service> {
     private let name: String?

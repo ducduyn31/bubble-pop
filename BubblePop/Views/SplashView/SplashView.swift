@@ -10,6 +10,7 @@ import SwiftUI
 struct SplashView: View {
     @EnvironmentObject var systemState: SystemState
     
+    // When everything is loaded, the loading screen will fade out
     private var shouldReverse: Binding<Bool> {
         Binding<Bool>(
             get: { systemState.state == .LoadComplete },
@@ -22,20 +23,22 @@ struct SplashView: View {
             Color("Base100")
                 .ignoresSafeArea(.all, edges: .all)
             VStack {
-                Image("SplashIcon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 200, height: 200)
-                    .padding()
-                    .blinking(from: 1, to: 0.5)
-                Text("A product of Coffee with Egg")
-                    .font(.title)
-                    .colorScheme(.light)
+                Spacer()
+                Logo()
+                Spacer()
+                VStack {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
+                    HintText()
+                }
             }
         }
+        // Fade out once everything is loaded
         .reversibleFading(shouldReverse: shouldReverse, duration: 2, from: 0, to: 1)
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            // Make sure all the credits are shown before fading out
+            DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
                 systemState.publishEvent(event: .SplashScreenComplete)
             }
         }

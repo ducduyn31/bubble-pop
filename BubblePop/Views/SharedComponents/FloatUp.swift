@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+/// A view modifier that makes the view floating up based on the given velocity
+/// This is used in making the bubble floating up
 struct FloatUp: ViewModifier {
     let initialY: Double
     let velocity: Double

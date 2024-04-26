@@ -25,6 +25,7 @@ struct Countdown: View {
     ]
     @State private var step: Int
     @State private var countdownHandler: Cancellable?
+    @Inject private var soundPlayer: SoundPlayerService
     
     init(shouldCountdown: Binding<Bool>) {
         self._shouldCountdown = shouldCountdown
@@ -49,6 +50,9 @@ struct Countdown: View {
                         shouldCountdown.toggle()
                         handler.cancel()
                     }
+                }
+                .onAppear {
+                    soundPlayer.playSound(name: .countdown)
                 }
         }
     }

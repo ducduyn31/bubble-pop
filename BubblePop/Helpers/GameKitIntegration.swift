@@ -9,12 +9,14 @@ import Foundation
 import GameKit
 import os
 
+/// Authenticate player with Game Center
 func authenticatePlayer(callback: @escaping (Bool) -> Void) {
     let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: authenticatePlayer))
     GKLocalPlayer.local.authenticateHandler = { viewController, error in
         if let viewController = viewController {
             logger.info("Presenting Game Center login view controller")
             
+            // Present the Game Center login view controller
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
                 rootViewController.present(viewController, animated: true)

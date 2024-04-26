@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Generate bubbles based on the game mode
 class BubbleFactory {
     let generateStrategy: IBubbleGenerateStrategy
     let degenerateStrategy: IBubbleDegenerateStrategy
@@ -21,6 +22,7 @@ class BubbleFactory {
         let toSpawn = count > 0 ? count : Int.random(in: GameMinBubblePerTurn[currentGameMode]...GameMaxBubbles[currentGameMode])
         
         for _ in 0..<toSpawn {
+            // Generate a bubble
             let bubble = generateStrategy.generateBubble(context: context)
             if bubble == nil {
                 continue
@@ -28,6 +30,7 @@ class BubbleFactory {
             context.bubbles.append(bubble!)
         }
         
+        // If the number of bubbles exceed the limit, remove the oldest bubbles
         let toRemove = context.bubbles.count - GameMaxBubbles[currentGameMode]
         if toRemove > 0 {
             context.bubbles.removeFirst(toRemove)

@@ -30,6 +30,8 @@ protocol EventListener: AnyObject {
     func onEvent(event: LocalEvent, data: Any?, context: Any?)
 }
 
+/// Event manager for handling local events, this is how we implement Observer pattern
+/// We aim to use this for inter-component communication to separate concerns
 class EventManager {
     private var listeners: [LocalEvent: [EventListener]] = [:]
     private static let logger = Logger(

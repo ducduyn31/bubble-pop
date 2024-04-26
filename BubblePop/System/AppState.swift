@@ -28,17 +28,32 @@ enum AppState: Int, Comparable {
     }
 }
 
+struct AlertMetadata {
+    var title: String
+    var message: String
+}
+
+/// Environment object to manage the state of the app
 class SystemState: ObservableObject {
     @Published var state: AppState {
         didSet {
-            systemEvent.publishEvent(event: .StateChanged, context: self)
+            systemEvent.publishEvent(event: .StateChanged, context: self) // Trigger event when state changes
         }
     }
+    @Published var currentAlert: AlertMetadata?
     private var systemEvent: EventManager
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: SystemState.self))
     
+    // To wire with SwiftUI `alert(isPresented:content:)`
+    var isShowingAlert: Binding<Bool> {
+        Binding<Bool>(
+            get: { self.currentAlert != nil },
+            set: { if !$0 { self.currentAlert = nil } }
+        )
+    }
+    
     public init() {
-        self.state = .Loading
+        self.state = .Loading // Initial state
         self.systemEvent = EventManager()
         registerEventHandlers(eventManager: self.systemEvent, context: self)
     }

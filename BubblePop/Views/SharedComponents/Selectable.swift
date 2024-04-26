@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/// A view modifier that makes the view selectable
+/// When the view is selected, it will grow in size
+/// When the view is deselected, it will shrink back to its original size
 struct SelectableViewMod: ViewModifier {
     let initialWidth: Double
     let initialHeight: Double

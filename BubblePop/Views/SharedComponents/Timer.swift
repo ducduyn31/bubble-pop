@@ -8,6 +8,9 @@
 import Combine
 import SwiftUI
 
+/// A view modifier that makes  trigger an action every interval
+/// if `repeat` is set to true, the action will be triggered every interval such as counting down
+/// if `repeat` is set to false, the action will be triggered once such as a timeout
 struct TimerViewModifier: ViewModifier {
     @State private var timer: Timer.TimerPublisher
     @Binding private var handler: Cancellable?

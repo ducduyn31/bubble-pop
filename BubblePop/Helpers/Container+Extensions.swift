@@ -8,6 +8,7 @@
 import Foundation
 import Swinject
 
+/// Container for dependency injection
 extension Container {
     static let shared = Container()
     

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Strategy for generating bubbles
 protocol IBubbleGenerateStrategy {
     func generateBubble(context: GameContext) -> Bubble?
 }

@@ -19,31 +19,31 @@ struct BubblePopApp: App {
                 Color("Base100")
                     .ignoresSafeArea(.all, edges: .all)
                 if systemState.state > .LoadComplete {
-                    ContentView()
+                    ContentView() // Main content
                 } else {
-                    SplashView()
+                    SplashView() // Loading screen
+                        .alert(isPresented: systemState.isShowingAlert) {
+                            // Alert for any error
+                            Alert(
+                                title: Text(systemState.currentAlert?.title ?? "Something went wrong"),
+                                message: Text(systemState.currentAlert?.message ?? "An unknown error has occurred"),
+                                dismissButton: .default(Text("OK"))
+                            )
+                        }
                 }
             }
+            // Load dependencies, resources, setting up authentication in the background
             .task {
-                DispatchQueue.global(qos: .background).async {
-                    loadDependeciencies()
-                    DispatchQueue.main.async {
-                        systemState.publishEvent(event: .DIContainerReady)
+                loadDependeciencies()
+                systemState.publishEvent(event: .DIContainerReady)
+                configureDefaultSettings()
+                systemState.publishEvent(event: .SettingsConfigured)
+                authenticatePlayer() { success in
+                    guard success else {
+                        systemState.publishEvent(event: .GamekitIntegrationFailed)
+                        return
                     }
-                }
-                DispatchQueue.global(qos: .background).async {
-                    authenticatePlayer() { success in
-                        guard success else { return }
-                        DispatchQueue.main.async {
-                            systemState.publishEvent(event: .GamekitIntegrationReady)
-                        }
-                    }
-                }
-                DispatchQueue.global(qos: .background).async {
-                    configureSettings()
-                    DispatchQueue.main.async {
-                        systemState.publishEvent(event: .SettingsConfigured)
-                    }
+                    systemState.publishEvent(event: .GamekitIntegrationReady)
                 }
             }
         }

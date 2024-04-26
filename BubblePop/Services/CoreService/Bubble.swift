@@ -57,6 +57,7 @@ let BubbleScore: [BubbleColor: Double] = [
     .Black: 10,
 ]
 
+/// Dataclass for Bubble
 class Bubble: Identifiable, Equatable {
     var id: UUID
     var color: BubbleColor
@@ -73,6 +74,9 @@ class Bubble: Identifiable, Equatable {
     
     var y: Double {
         get {
+            // Bubble floats but I don't want to continuously update the position, it will cause
+            // write update (expensive). Thus I estimate the position based on the initial position
+            // and the velocity, this will be much cheaper.
             return position.initialY - (Date().timeIntervalSince(createdAt) * position.velocity)
         }
     }

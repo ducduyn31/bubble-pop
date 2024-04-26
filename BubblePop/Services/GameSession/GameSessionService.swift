@@ -11,7 +11,8 @@ import os
 class GameSessionService {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: GameSessionService.self))
     private let gameSessionStore = GameSessionStore()
-        
+    
+    /// Save the game session to the store, update the current instance
     func saveGameSession(gameSession: GameSession) {
         gameSessionStore.addGameSession(session: gameSession)
         try? gameSessionStore.saveGameSessions()
