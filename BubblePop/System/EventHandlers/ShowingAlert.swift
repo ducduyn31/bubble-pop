@@ -31,7 +31,7 @@ class OnGameKitIntegrationFailed: ClassSeparatedEventListener {
         
         systemState.currentAlert = AlertMetadata(
             title: "Game Center Integration Failed",
-            message: "The game center integration has failed. Please try again later."
+            message: "The game center integration has failed. But it is probably because the game is not registered. If the game does not move to menu, please try opening the game again."
         )
     }
 }
